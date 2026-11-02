@@ -2,6 +2,8 @@
  * Records the Replay flow (headless Chromium, 1440x900) for the demo video.
  * Each scene lasts as long as its narration clip (demo/.work/durations.json) plus a short pause.
  * Writes demo/.work/raw.webm and demo/.work/timeline.json.
+ * The Camera Kit scene uses a test camera feed (demo/.work/cam/webcam.mjpeg, a still of demo face A) and holds the
+ * resulting /api/skin request, so recording never spends YouCam units.
  *   BASE=http://localhost:3200 node scripts/record-demo.cjs
  */
 const { chromium } = require("playwright");
@@ -34,7 +36,11 @@ function cursorScript() {
 }
 
 (async () => {
-  const browser = await chromium.launch();
+  const camFeed = path.resolve(WORK, "cam", "webcam.mjpeg");
+  const browser = await chromium.launch({
+    proxy: process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY, bypass: "localhost,127.0.0.1" } : undefined,
+    args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", `--use-file-for-fake-video-capture=${camFeed}`],
+  });
 
   // Warm the server and image caches so the recording has no loading flashes.
   const warm = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -45,8 +51,12 @@ function cursorScript() {
 
   const context = await browser.newContext({
     viewport: { width: 1440, height: 900 },
+    permissions: ["camera"],
     recordVideo: { dir: path.join(WORK, "raw"), size: { width: 1440, height: 900 } },
   });
+  // Hold any live scan request: the video shows the capture, the results come from the recorded replay.
+  const held = [];
+  await context.route("**/api/skin", (route) => held.push(route));
   await context.addInitScript(cursorScript);
   const page = await context.newPage();
   const created = Date.now();
@@ -109,11 +119,24 @@ function cursorScript() {
     await hover('[data-testid="home-aha"] img[alt$="label"]');
   });
 
-  await scene("s3-scan-a", async () => {
+  await scene("s3a-camera", async () => {
     await scrollTop();
-    await click('[data-testid="start-replay"]');
+    await click('[data-testid="start-live"]');
     await page.waitForURL("**/scan");
-    await page.waitForTimeout(6000);
+    await page.waitForTimeout(1000);
+    await click('[data-testid="live-camera"]');
+    await page.waitForSelector('[data-testid="camera-dialog"]');
+    await page.mouse.move(1300, 860, { steps: 20 });
+    await page.waitForSelector('[data-testid="camera-dialog"]', { state: "detached", timeout: 30000 }).catch(() => {});
+    await page.waitForTimeout(1200);
+  });
+
+  await scene("s3-scan-a", async () => {
+    for (const r of held.splice(0)) await r.abort().catch(() => {});
+    await click('[data-testid="back-to-replay"]');
+    await page.waitForTimeout(600);
+    await click('[data-testid="profile-demo-a"]');
+    await page.waitForTimeout(4000);
     await hover('[data-testid="score-moisture"]');
     await page.waitForTimeout(4000);
     await click('[data-testid="mask-toggle-skin_type"]');

@@ -25,6 +25,7 @@ export function ModeBanner() {
         <span>New scans and labels call the real APIs from the server. Recorded demo data stays available.</span>
         <button
           type="button"
+          data-testid="back-to-replay"
           onClick={() => set({ mode: "replay" })}
           className="ml-auto rounded-full border border-good/40 px-3 py-1 font-semibold hover:bg-white"
         >

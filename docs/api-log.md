@@ -62,3 +62,5 @@ A dated log kept while building. Times are UTC.
   face scored moisture 44.5 and pores 41.1 from the 540 x 720 capture, versus 39.7 and 53.9 from the 1080 x 1440 photo.
   Resolution changes the numbers, so Capy says to rescan with the same setup before comparing. Capy Shelf total:
   **48 units**.
+- **04:05** Re-cut the demo video with a Camera Kit scene (guided capture on a test camera feed; the scan request is
+  held, so recording spends no units). 445 more narration characters for the new and changed lines; final cut 2:24.

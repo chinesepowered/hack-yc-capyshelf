@@ -10,8 +10,12 @@
       "text": "Here's the idea. The same moisturizer is a good match for Shopper A, and a skip for Shopper B. Same label, same rules. Only their measured skin is different."
     },
     {
+      "id": "s3a-camera",
+      "text": "Step one: scan once. In the aisle, the YouCam Camera Kit guides the selfie. It checks light, pose and face position, then takes the photo by itself."
+    },
+    {
       "id": "s3-scan-a",
-      "text": "Step one: scan once. A selfie goes to the YouCam AI Skin Analysis API. We use the SD model with seven concerns, from acne and pores to moisture, redness and skin type, for twelve units per scan. Each concern comes back with a raw score and a detection mask. For Shopper A, hydration is the main focus."
+      "text": "The photo goes to the YouCam AI Skin Analysis API. We use the SD model with seven concerns, from acne and pores to moisture, redness and skin type, for twelve units per scan. Each concern comes back with a raw score and a detection mask. In this recorded scan, hydration is Shopper A's main focus."
     },
     {
       "id": "s4-scan-b",

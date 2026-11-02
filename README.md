@@ -4,7 +4,7 @@
 
 ![Same moisturizer, two skins, two answers](demo/thumb.jpg)
 
-- Demo video (2:10, narrated): [`demo/video.mp4`](demo/video.mp4)
+- Demo video (2:24, narrated): [`demo/video.mp4`](demo/video.mp4)
 - Screenshots: [`docs/screenshots/`](docs/screenshots)
 - YouCam AI Skin Analysis Hackathon, topic: **Skin AI**
 
