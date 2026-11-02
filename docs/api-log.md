@@ -50,3 +50,15 @@ A dated log kept while building. Times are UTC.
 - **03:40** Accessibility pass with axe-core (WCAG 2.0, 2.1, 2.2 A and AA rules) on every page and every profile and
   product combination at 1440 px and 390 px: one contrast issue (faded position numbers in ingredient chips), fixed,
   then 0 violations. Ingredient chips became tappable buttons with a detail panel, since hover does not exist on phones.
+- **03:50** Added the YouCam JS Camera Kit (v2.5) for live selfies. Walls and surprises:
+  - The docs say to define `window.YMKAsyncInit`, but the v2.5 SDK calls `window.ymkAsyncInit` (lowercase). We set both
+    and also poll for `window.YMK` after the script loads.
+  - Testing headlessly with Chromium's fake camera failed with `error.no.camera`: the SDK deliberately skips cameras
+    whose label matches words like "fake" or "virtual" (an anti-spoofing filter), and Chromium labels a test feed with
+    its file name. A neutrally named test file fixed the test; the app keeps the SDK's behavior for real users.
+  - Once running, the kit's live checks (lighting, look straight, face position) behaved exactly as documented and it
+    auto-captured a 540 x 720 portrait.
+- **03:55** Sent that Camera Kit capture through the real route: HTTP 200 in 4.2 s, **12 units**. Surprise: the same
+  face scored moisture 44.5 and pores 41.1 from the 540 x 720 capture, versus 39.7 and 53.9 from the 1080 x 1440 photo.
+  Resolution changes the numbers, so Capy says to rescan with the same setup before comparing. Capy Shelf total:
+  **48 units**.

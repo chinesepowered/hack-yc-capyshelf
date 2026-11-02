@@ -12,7 +12,8 @@ Is this right for your skin? Scan once with YouCam, snap any label, and Capy giv
 
 Capy Shelf is for the moment people actually wonder about their skin: standing in a store aisle with a product in hand.
 
-- **Scan once.** One selfie goes to the YouCam AI Skin Analysis API (SD). Capy keeps the concerns that decide purchases:
+- **Scan once.** One selfie, captured with the YouCam JS Camera Kit (live checks for face position, pose and lighting,
+  then automatic capture) or uploaded, goes to the YouCam AI Skin Analysis API (SD). Capy keeps the concerns that decide purchases:
   breakouts (`acne`), `pore`, `oiliness`, hydration (`moisture`), `redness`, `texture` and `skin_type` for the whole face,
   T-zone and U-zone. It shows the scores and overlays YouCam's detection masks on the photo, one toggle per concern.
 - **Snap the label.** A photo of the ingredient list is read by a vision language model into an ordered INCI list.
@@ -40,7 +41,8 @@ shopper.
 
 ## Built with
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, YouCam AI Skin Analysis API (Perfect Corp.),
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, YouCam AI Skin Analysis API and YouCam JS Camera Kit
+(Perfect Corp.),
 Qwen 3.8 27B (vision and text) on W&B Inference through the OpenAI SDK, pngjs (mask pixel analysis), Playwright
 (screenshots and the demo recording), ffmpeg, AssemblyAI text to speech (demo narration), axe-core (accessibility
 checks), pnpm.
@@ -52,7 +54,8 @@ Our first scan, of a mature face, came back with `skin_type` **Oily** for the wh
 and dehydrated at the same time, and the API had just measured exactly that. Capy now says it in plain words ("oil and
 water are different things"), which is the kind of insight shoppers rarely get. The other good surprise: re-running the
 same photo through our live route gave identical scores, so recorded replays are faithful to what the API really returns.
-Small frustrations: the moisture result's `ui_score` (66) reads much kinder than its `raw_score` (39.7), so we decide on
+A small frustration: the Camera Kit docs say to define `window.YMKAsyncInit`, but the SDK calls `window.ymkAsyncInit`,
+so the kit silently never started until we read the SDK source. Also, the moisture result's `ui_score` (66) reads much kinder than its `raw_score` (39.7), so we decide on
 raw scores and show both, and the JSON output includes extra items (`all`, `skin_age`, `resize_image`) that a parser has
 to skip.
 
@@ -83,6 +86,6 @@ to skip.
   concerns" case. The re-recorded text is now accurate.
 - **A shared unit budget.** 1,000 units were shared by two projects. We recorded each demo scan exactly once (capture
   scripts refuse to re-run), log the unit balance before and after, cap live scans per server, and built the whole UI
-  against recorded fixtures with a visible Replay mode. Total spent: 36 units.
+  against recorded fixtures with a visible Replay mode. Total spent: 48 units.
 - **Narration.** The planned text-to-speech key turned out to be out of quota, so the video narration was generated with
   a different text-to-speech service; every clip is cached so re-rendering costs nothing.

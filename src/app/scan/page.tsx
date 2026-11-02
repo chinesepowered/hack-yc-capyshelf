@@ -7,6 +7,7 @@ import type { Concern, SkinProfile } from "@/lib/types";
 import { CONCERNS } from "@/lib/types";
 import { profileSummary } from "@/lib/skin";
 import { downscaleImage } from "@/lib/image";
+import { captureWithCameraKit } from "@/lib/camera-kit";
 import { SkinMap, type MapLayer } from "@/components/SkinMap";
 import { ScoreList } from "@/components/ScoreList";
 import { ApiStampView, CapySays, ModeBanner, NextLink, StepHeader } from "@/components/ui";
@@ -107,11 +108,22 @@ export default function ScanPage() {
   );
 }
 
+function describeQuality(q: { hasFace?: boolean; position?: string; frontal?: string; lighting?: string }): string {
+  if (!q.hasFace) return "Looking for your face...";
+  if (q.position === "toosmall") return "Move a little closer.";
+  if (q.position === "outofboundary") return "Center your face in the frame.";
+  if (q.frontal && q.frontal !== "good") return "Look straight at the camera.";
+  if (q.lighting === "notgood") return "Find brighter, even light.";
+  return "Hold still, capturing...";
+}
+
 function LiveScanButton() {
   const { addLiveProfile } = useShelf();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scansLeft, setScansLeft] = useState<number | null>(null);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [quality, setQuality] = useState("Starting the YouCam camera guide...");
 
   useEffect(() => {
     fetch("/api/status")
@@ -120,20 +132,24 @@ function LiveScanButton() {
       .catch(() => setScansLeft(null));
   }, []);
 
+  async function analyze(blob: Blob, name: string) {
+    const form = new FormData();
+    form.append("image", blob, name);
+    setBusy("YouCam is analyzing your skin (about 10 seconds)");
+    const res = await fetch("/api/skin", { method: "POST", body: form });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || "The scan did not finish.");
+    addLiveProfile(json.profile as SkinProfile);
+    setScansLeft(json.liveScansLeft ?? null);
+  }
+
   async function onFile(file: File | undefined) {
     if (!file) return;
     setError(null);
     try {
       setBusy("Preparing your photo");
       const blob = await downscaleImage(file, 1600, 0.92);
-      const form = new FormData();
-      form.append("image", blob, "selfie.jpg");
-      setBusy("YouCam is analyzing your skin (about 10 seconds)");
-      const res = await fetch("/api/skin", { method: "POST", body: form });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "The scan did not finish.");
-      addLiveProfile(json.profile as SkinProfile);
-      setScansLeft(json.liveScansLeft ?? null);
+      await analyze(blob, "selfie.jpg");
     } catch (e) {
       setError(e instanceof Error ? e.message : "The scan did not finish.");
     } finally {
@@ -141,32 +157,85 @@ function LiveScanButton() {
     }
   }
 
+  async function onCamera() {
+    setError(null);
+    setQuality("Starting the YouCam camera guide...");
+    setCameraOpen(true);
+    await new Promise((r) => requestAnimationFrame(() => r(null)));
+    try {
+      const width = Math.min(window.innerWidth - 48, 480);
+      const height = Math.min(window.innerHeight - 220, Math.round((width * 4) / 3));
+      const photo = await captureWithCameraKit({ width, height }, (q) => setQuality(describeQuality(q)));
+      setCameraOpen(false);
+      await analyze(photo, "camera.jpg");
+    } catch (e) {
+      setCameraOpen(false);
+      const msg = e instanceof Error ? e.message : "";
+      if (msg !== "closed") setError(msg || "The camera guide stopped. You can upload a photo instead.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
   return (
-    <div className="rounded-2xl border border-dashed border-moss/50 bg-white/70 p-3 max-w-md">
-      <label className="flex items-center gap-3 cursor-pointer" data-testid="live-selfie">
-        <span className="grid place-items-center w-12 h-16 rounded-xl bg-good-bg text-good text-2xl font-black" aria-hidden>
-          +
-        </span>
-        <span>
-          <span className="block font-extrabold">Scan your own selfie</span>
-          <span className="block text-xs text-muted">
-            Front-facing, even light, face filling most of the width, no glasses. One scan uses 12 YouCam units
-            {scansLeft !== null ? ` (${scansLeft} live scans left on this server)` : ""}.
-          </span>
-        </span>
-        <input
-          type="file"
-          accept="image/jpeg,image/png"
-          capture="user"
-          className="sr-only"
+    <div className="rounded-2xl border border-dashed border-moss/50 bg-white/70 p-3 max-w-md grid gap-2">
+      <p className="font-extrabold">Scan your own skin</p>
+      <p className="text-xs text-muted">
+        Front-facing, even light, face filling most of the width, no glasses. One scan uses 12 YouCam units
+        {scansLeft !== null ? ` (${scansLeft} live scans left on this server)` : ""}.
+      </p>
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={onCamera}
           disabled={Boolean(busy)}
-          onChange={(e) => onFile(e.target.files?.[0])}
-        />
-      </label>
-      <p role="status" aria-live="polite" className="mt-2 text-sm">
+          data-testid="live-camera"
+          className="rounded-full bg-moss px-4 py-2 text-sm font-bold text-white hover:bg-moss-dark disabled:opacity-60 min-h-10"
+        >
+          Use the YouCam camera guide
+        </button>
+        <label
+          className="rounded-full border border-ink px-4 py-2 text-sm font-bold cursor-pointer hover:bg-white min-h-10 inline-flex items-center"
+          data-testid="live-selfie"
+        >
+          Upload a selfie
+          <input
+            type="file"
+            accept="image/jpeg,image/png"
+            capture="user"
+            className="sr-only"
+            disabled={Boolean(busy)}
+            onChange={(e) => onFile(e.target.files?.[0])}
+          />
+        </label>
+      </div>
+      <p role="status" aria-live="polite" className="text-sm">
         {busy && <span className="font-semibold text-moss">{busy}...</span>}
         {error && <span className="font-semibold text-skip">{error}</span>}
       </p>
+      {cameraOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="YouCam camera guide"
+          className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4"
+          data-testid="camera-dialog"
+        >
+          <div className="rounded-3xl bg-white p-3 grid gap-2 justify-items-center max-w-full">
+            <div id="YMK-module" />
+            <p aria-live="polite" className="text-sm font-semibold" data-testid="camera-quality">
+              {quality}
+            </p>
+            <button
+              type="button"
+              onClick={() => window.YMK?.close()}
+              className="rounded-full border border-ink px-4 py-2 text-sm font-bold min-h-10"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

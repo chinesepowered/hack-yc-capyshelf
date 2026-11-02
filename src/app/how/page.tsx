@@ -13,6 +13,7 @@ const ENDPOINTS = [
   ["PUT", "pre-signed URL", "Upload the image bytes with the headers YouCam returned."],
   ["POST", "/s2s/v2.0/task/skin-analysis", "Start one SD analysis: acne, pore, oiliness, moisture, redness, texture, skin_type (12 units)."],
   ["GET", "/s2s/v2.0/task/skin-analysis/{task_id}", "Poll until success; returns ui_score, raw_score and a detection mask per concern."],
+  ["JS", "YouCam JS Camera Kit v2.5 (skincare mode)", "Live mode: guided selfie with lighting, pose and face position checks, then automatic capture (no units)."],
 ];
 
 export default function HowPage() {

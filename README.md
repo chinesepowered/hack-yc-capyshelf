@@ -55,7 +55,8 @@ and LLM result the demo uses was recorded once from the real APIs and lives in t
 `public/fixtures/`), so a judge without keys can click through everything. A banner on every step says so.
 
 **Live mode** (your own selfie and label photos): copy `.env.example` to `.env.local`, fill in `YOUCAM_API_KEY` and the
-OpenAI-compatible LLM variables, restart, and click **Try it live**. Keys stay on the server (Next.js route handlers);
+OpenAI-compatible LLM variables, restart, and click **Try it live**. The selfie can come from the **YouCam JS Camera
+Kit** (guided capture that checks face position, pose and lighting, then shoots automatically) or from a photo upload. Keys stay on the server (Next.js route handlers);
 nothing secret reaches the browser. Each live skin scan spends 12 YouCam units, so a server allows `LIVE_SCAN_LIMIT`
 scans (default 5). For development: `pnpm dev`.
 
@@ -70,6 +71,7 @@ All calls are server-side in [`src/lib/youcam.ts`](src/lib/youcam.ts), base URL 
 | 3 | `POST /s2s/v2.0/task/skin-analysis` | One task with `dst_actions` `acne, pore, oiliness, moisture, redness, texture, skin_type` and `format: json`. **12 units.** |
 | 4 | `GET /s2s/v2.0/task/skin-analysis/{task_id}` | Polls (free) until `success`; reads `raw_score`, `ui_score`, `mask_urls`, and the `skin_type` items for whole face, T-zone and U-zone. |
 | (log) | `GET /s2s/v1.0/client/credit` | Unit balance, read before and after every recorded capture. |
+| (client) | YouCam JS Camera Kit v2.5, `skincare` mode | Live selfies: guided, auto-captured photos that already meet the skin analysis photo rules, so fewer scans fail. No units. |
 
 What Capy builds on top of the raw output:
 
@@ -82,6 +84,8 @@ What Capy builds on top of the raw output:
 - **Skin type** (`Oily`, `Dry`, `Normal`, combinations and `Redness` variants) can raise a matching concern by one band,
   never lower it. Capy also explains the common surprise of oily skin with low hydration.
 - **The detection mask overlay** is shown on the photo with toggles for each concern and the skin type zones.
+- **Guided capture with the YouCam JS Camera Kit** ([`src/lib/camera-kit.ts`](src/lib/camera-kit.ts)): live quality
+  hints (lighting, look straight, face position) in plain words, automatic capture, then the same analysis call.
 - **Plain error messages** for the documented photo errors (`error_src_face_too_small`, `error_lighting_dark`, and so on),
   and a failed task gives the live scan back because YouCam only charges on success.
 
@@ -90,8 +94,8 @@ texture, skin type), accepts any phone or laptop selfie from 480 pixels on the s
 12 units for 5 to 8 concerns instead of 16. In an aisle, speed and "works with the camera you have" matter more than
 pore-level detail. HD's regional pore scores are the natural upgrade.
 
-**Units used by this build: 36** of the shared 1,000 (two recorded demo scans at 12 each, plus one 12-unit end-to-end
-test of the live route). Every capture script refuses to run twice unless forced, and nothing calls YouCam in a loop.
+**Units used by this build: 48** of the shared 1,000 (two recorded demo scans, one end-to-end test of the live upload
+route, and one end-to-end test of a Camera Kit capture, 12 units each). Every capture script refuses to run twice unless forced, and nothing calls YouCam in a loop.
 
 ## How the verdict is decided
 
