@@ -7,6 +7,7 @@ import { computeVerdict, VERDICT_LABEL } from "@/lib/verdict";
 import { explanationKey, RECORDED_EXPLANATIONS } from "@/fixtures";
 import type { Product, SkinProfile } from "@/lib/types";
 import { VerdictCard } from "@/components/VerdictCard";
+import { modelName, usePresentMode } from "@/lib/present";
 import { CapySays, ModeBanner, NextLink, StepHeader, VERDICT_STYLE, VerdictBadge } from "@/components/ui";
 
 function useExplanation(profile: SkinProfile, product: Product) {
@@ -16,6 +17,7 @@ function useExplanation(profile: SkinProfile, product: Product) {
   const live = liveExplanations[key];
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const needsLive = !recorded && !live;
+  const present = usePresentMode();
 
   useEffect(() => {
     if (!needsLive) return;
@@ -42,8 +44,8 @@ function useExplanation(profile: SkinProfile, product: Product) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, needsLive]);
 
-  if (recorded) return { text: recorded.text, by: `Written by ${recorded.model} from the facts on this card (recorded run).`, status };
-  if (live) return { text: live.text, by: `Written live by ${live.model} from the facts on this card.`, status };
+  if (recorded) return { text: recorded.text, by: `Written by ${modelName(recorded.model, present)} from the facts on this card (recorded run).`, status };
+  if (live) return { text: live.text, by: `Written live by ${modelName(live.model, present)} from the facts on this card.`, status };
   return { text: null, by: "", status };
 }
 

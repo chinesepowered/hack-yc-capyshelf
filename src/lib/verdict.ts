@@ -122,11 +122,11 @@ function listWords(xs: string[]): string {
 /** Risk predicates that read right after one or several ingredient names. */
 const RISK_PHRASE: Partial<Record<Tag, string>> = {
   drying_surfactant: "can strip oil and water from skin",
-  drying_alcohol: "can dry skin out",
+  drying_alcohol: "may dry skin out",
   fragrance: "can trigger skin reactions",
   fragrance_allergen: "can trigger skin reactions",
   essential_oil: "can irritate skin",
-  comedogenic: "can clog pores",
+  comedogenic: "may clog pores",
   bha: "can be drying",
   aha: "can sting",
   benzoyl_peroxide: "can dry and irritate skin",
@@ -188,7 +188,11 @@ function headline(kind: VerdictKind, risks: Driver[], helps: Driver[], profile: 
 }
 
 /** Plain facts handed to the LLM so it can only rephrase, never decide. */
-export function verdictFacts(profile: SkinProfile, product: Pick<Product, "name" | "type">, v: Verdict): string[] {
+export function verdictFacts(
+  profile: SkinProfile,
+  product: Pick<Product, "name" | "type"> & Partial<Pick<Product, "ingredients">>,
+  v: Verdict,
+): string[] {
   const facts: string[] = [];
   const summary = profileSummary(profile);
   facts.push(`YouCam AI Skin Analysis: ${summary.text}`);
@@ -200,6 +204,24 @@ export function verdictFacts(profile: SkinProfile, product: Pick<Product, "name"
   }
   for (const h of v.helps.slice(0, 3)) {
     facts.push(`${h.ingredient} helps: ${TAGS[h.tag].plain}`);
+  }
+  if (v.kind === "good" && v.helps.length === 0) {
+    facts.push(
+      "No ingredient on this label targets the concerns YouCam flagged. It is a good match only because nothing on it works against them.",
+    );
+    const said = new Set<string>();
+    for (const ing of product.ingredients ?? []) {
+      const entry = lookupIngredient(ing);
+      if (!entry || said.size >= 2) continue;
+      const helped = entry.tags.flatMap((t) => TAGS[t].effects.filter((e) => e.kind === "helps").map((e) => e.concern));
+      const clear = [...new Set(helped)].filter((c) => profile.scores[c]?.level === "clear");
+      if (clear.length && clear.length === new Set(helped).size) {
+        said.add(ing);
+        facts.push(
+          `${ing} is counted in Capy's table for ${clear.map((c) => CONCERN_LABEL[c].toLowerCase()).join(", ")}, which already read balanced for this person.`,
+        );
+      }
+    }
   }
   if (v.kind === "care") facts.push("Suggest a patch test before using it all over.");
   if (product.type === "cleanser") facts.push("It is a rinse-off cleanser, so contact time is short.");

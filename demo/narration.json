@@ -1,0 +1,41 @@
+{
+  "voice": "aai-sara",
+  "scenes": [
+    {
+      "id": "s1-intro",
+      "text": "You're in the skincare aisle with a moisturizer in your hand. Will it break you out, or dry you out? Capy Shelf answers that for your skin, not for skin in general. It's for anyone who has been burned by a product, and anyone who can't read an ingredient list."
+    },
+    {
+      "id": "s2-aha",
+      "text": "Here's the idea. The same moisturizer is a good match for Shopper A, and a skip for Shopper B. Same label, same rules. Only their measured skin is different."
+    },
+    {
+      "id": "s3-scan-a",
+      "text": "Step one: scan once. A selfie goes to the YouCam AI Skin Analysis API. We use the SD model with seven concerns, from acne and pores to moisture, redness and skin type, for twelve units per scan. Each concern comes back with a raw score and a detection mask. For Shopper A, hydration is the main focus."
+    },
+    {
+      "id": "s4-scan-b",
+      "text": "Shopper B is different: pores and breakouts. Capy reads the mask pixels to find where they are. Here, mostly on the cheeks."
+    },
+    {
+      "id": "s5-label",
+      "text": "Step two: snap the label. A vision language model copies the ingredient list off the photo, in order. Then Capy colors each ingredient for this skin."
+    },
+    {
+      "id": "s6-verdict-b",
+      "text": "Step three: the verdict. It's deterministic: an ingredient table with cited sources meets the person's own YouCam scores. Isopropyl myristate is third on the list and may clog pores, so for Shopper B, this cream is a skip."
+    },
+    {
+      "id": "s7-verdict-a",
+      "text": "Switch to Shopper A, and the same cream is a good match, because glycerin and dimethicone help skin hold water. The language model only writes the friendly explanation."
+    },
+    {
+      "id": "s8-compare",
+      "text": "Step four: compare products and get a tiny routine from the ones that fit. When nothing fits, Capy says what to look for instead."
+    },
+    {
+      "id": "s9-close",
+      "text": "One honest limit: ingredient effects are tendencies, not guarantees, and this is not medical advice. So Capy suggests a patch test, and a dermatologist for painful or lasting acne. Calm answers, right in the aisle."
+    }
+  ]
+}

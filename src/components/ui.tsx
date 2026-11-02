@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ApiStamp as Stamp, VerdictKind } from "@/lib/types";
 import { useShelf } from "@/lib/store";
 import { Capy } from "./Capy";
+import { usePresentMode } from "@/lib/present";
 
 export function StepHeader({ n, title, children }: { n: number; title: string; children?: React.ReactNode }) {
   return (
@@ -39,20 +40,21 @@ export function ModeBanner() {
     >
       <span className="font-bold text-water">Replay of a recorded run.</span>
       <span>
-        Every result here came from the real YouCam and Qwen APIs and was saved in the repo, so you can click through with
-        no keys.
+        Every result here came from the real YouCam API and a hosted vision language model, and was saved in the repo, so
+        you can click through with no keys.
       </span>
     </div>
   );
 }
 
 export function ApiStampView({ stamp, extra }: { stamp: Stamp; extra?: string }) {
+  const present = usePresentMode();
   const when = stamp.capturedAt ? new Date(stamp.capturedAt) : null;
   return (
     <div className="rounded-xl border border-line bg-white/70 px-3 py-2 text-xs text-muted flex flex-wrap gap-x-3 gap-y-1" data-testid="api-stamp">
       <span className="font-bold text-ink">{stamp.name}</span>
       <code className="font-mono">{stamp.endpoint}</code>
-      {stamp.model && <span>model {stamp.model}</span>}
+      {stamp.model && <span>{present ? "vision language model" : `model ${stamp.model}`}</span>}
       {stamp.taskId && <span title={stamp.taskId}>task {stamp.taskId.slice(0, 10)}...</span>}
       {typeof stamp.unitsUsed === "number" && <span>{stamp.unitsUsed} units</span>}
       {typeof stamp.elapsedMs === "number" && <span>{(stamp.elapsedMs / 1000).toFixed(1)} s</span>}

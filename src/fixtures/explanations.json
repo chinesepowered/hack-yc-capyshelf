@@ -1,1 +1,90 @@
-{}
+{
+  "demo-a|dew-drink-gel-cream": {
+    "text": "This Dew Drink Gel Cream is a good match because hydration is your main focus. Glycerin, Butylene Glycol, Dimethicone, and Niacinamide can help the top layer of skin hold water, with Dimethicone adding a light film that slows water loss.",
+    "model": "Qwen/Qwen3.8-27B",
+    "capturedAt": "2026-11-02T03:20:22.641Z",
+    "elapsedMs": 10699,
+    "verdict": "good",
+    "facts": [
+      "YouCam AI Skin Analysis: Main focus: hydration. Worth watching: pores, texture, oiliness.",
+      "Verdict reason from the ingredient table: Glycerin, Dimethicone and Niacinamide can help skin hold water, and hydration is your main focus. Nothing on the label works against your scan.",
+      "Glycerin helps: Draws water into the top layer of skin.",
+      "Butylene Glycol helps: Draws water into the top layer of skin.",
+      "Dimethicone helps: Forms a light film that slows water loss and softens skin."
+    ]
+  },
+  "demo-a|clear-morning-wash": {
+    "text": "Across your face, Clear Morning Foaming Wash is a skip. Sodium Lauryl Sulfate can strip oil and water, and Salicylic Acid can be drying, while your main focus is hydration. Glycerin helps draw water into the top layer, and it is a rinse off cleanser, so contact time is short.",
+    "model": "Qwen/Qwen3.8-27B",
+    "capturedAt": "2026-11-02T03:21:02.568Z",
+    "elapsedMs": 39925,
+    "verdict": "skip",
+    "facts": [
+      "YouCam AI Skin Analysis: Main focus: hydration. Worth watching: pores, texture, oiliness.",
+      "Verdict reason from the ingredient table: Sodium Lauryl Sulfate can strip oil and water from skin and Salicylic Acid can be drying, and hydration is your main focus (across your face).",
+      "Sodium Lauryl Sulfate (number 2 on the list): A strong cleansing agent that can strip oil and water from skin and sting dry or sensitive skin. Hydration raw score 39.7 of 100, higher is healthier, across your face.",
+      "Salicylic Acid (number 5 on the list): Salicylic acid works inside pores and is an approved acne ingredient. It can be drying. Hydration raw score 39.7 of 100, higher is healthier, across your face.",
+      "Glycerin helps: Draws water into the top layer of skin.",
+      "Salicylic Acid helps: Salicylic acid works inside pores and is an approved acne ingredient. It can be drying.",
+      "Salicylic Acid helps: Salicylic acid works inside pores and is an approved acne ingredient. It can be drying.",
+      "It is a rinse-off cleanser, so contact time is short."
+    ]
+  },
+  "demo-a|calm-dew-serum": {
+    "text": "Use with care because Alcohol Denat may dry out skin, and hydration is your main focus across your face. Propanediol, Glycerin, and Niacinamide help draw water into the top layer and support the barrier. A patch test before using it all over is suggested.",
+    "model": "Qwen/Qwen3.8-27B",
+    "capturedAt": "2026-11-02T03:21:24.948Z",
+    "elapsedMs": 22379,
+    "verdict": "care",
+    "facts": [
+      "YouCam AI Skin Analysis: Main focus: hydration. Worth watching: pores, texture, oiliness.",
+      "Verdict reason from the ingredient table: Alcohol Denat may dry skin out, and hydration is your main focus (across your face).",
+      "Alcohol Denat (number 6 on the list): Simple alcohol helps products dry fast; in larger amounts it may dry out dry or sensitive skin. Hydration raw score 39.7 of 100, higher is healthier, across your face.",
+      "Propanediol helps: Draws water into the top layer of skin.",
+      "Glycerin helps: Draws water into the top layer of skin.",
+      "Niacinamide helps: Studied for less oil, a stronger barrier and less blotchy redness.",
+      "Suggest a patch test before using it all over."
+    ]
+  },
+  "demo-b|dew-drink-gel-cream": {
+    "text": "Your main focus is pores. Breakouts are worth watching on your cheeks. Dew Drink Gel Cream is a skip for you because Isopropyl Myristate and Myristyl Myristate may clog pores.",
+    "model": "Qwen/Qwen3.8-27B",
+    "capturedAt": "2026-11-02T03:21:45.932Z",
+    "elapsedMs": 20982,
+    "verdict": "skip",
+    "facts": [
+      "YouCam AI Skin Analysis: Main focus: pores. Worth watching: breakouts.",
+      "Verdict reason from the ingredient table: Isopropyl Myristate and Myristyl Myristate may clog pores, and breakouts are worth watching for you (mostly on your cheeks).",
+      "Isopropyl Myristate (number 3 on the list): Scored as pore-clogging in older comedogenicity tests, so it may mean more breakouts on acne-prone skin. Breakouts raw score 66.1 of 100, higher is healthier, mostly on your cheeks.",
+      "Myristyl Myristate (number 8 on the list): Scored as pore-clogging in older comedogenicity tests, so it may mean more breakouts on acne-prone skin. Breakouts raw score 66.1 of 100, higher is healthier, mostly on your cheeks."
+    ]
+  },
+  "demo-b|clear-morning-wash": {
+    "text": "Clear Morning Foaming Wash is a good match because Salicylic Acid can help keep pores clear, and pores are your main focus. Breakouts are worth watching, and nothing on the label works against your scan. It is a rinse off cleanser, so contact time is short.",
+    "model": "Qwen/Qwen3.8-27B",
+    "capturedAt": "2026-11-02T03:21:59.958Z",
+    "elapsedMs": 14024,
+    "verdict": "good",
+    "facts": [
+      "YouCam AI Skin Analysis: Main focus: pores. Worth watching: breakouts.",
+      "Verdict reason from the ingredient table: Salicylic Acid can help keep pores clear, and pores are your main focus. Nothing on the label works against your scan.",
+      "Salicylic Acid helps: Salicylic acid works inside pores and is an approved acne ingredient. It can be drying.",
+      "Salicylic Acid helps: Salicylic acid works inside pores and is an approved acne ingredient. It can be drying.",
+      "It is a rinse-off cleanser, so contact time is short."
+    ]
+  },
+  "demo-b|calm-dew-serum": {
+    "text": "This is a good match, even though it does not target your pores or breakouts. Niacinamide and propanediol are on the label, but nothing on it targets those concerns. It is fine to use, though it will not do much for them.",
+    "model": "Qwen/Qwen3.8-27B",
+    "capturedAt": "2026-11-02T03:23:56.286Z",
+    "elapsedMs": 18946,
+    "verdict": "good",
+    "facts": [
+      "YouCam AI Skin Analysis: Main focus: pores. Worth watching: breakouts.",
+      "Verdict reason from the ingredient table: Nothing on the label works against what YouCam measured.",
+      "No ingredient on this label targets the concerns YouCam flagged. It is a good match only because nothing on it works against them.",
+      "Niacinamide is counted in Capy's table for oiliness, redness, hydration, which already read balanced for this person.",
+      "Propanediol is counted in Capy's table for hydration, which already read balanced for this person."
+    ]
+  }
+}

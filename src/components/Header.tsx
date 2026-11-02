@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Capy } from "./Capy";
 import { useShelf } from "@/lib/store";
+import { usePresentMode } from "@/lib/present";
 
 const STEPS = [
   { href: "/scan", n: 1, label: "Scan once" },
@@ -15,6 +16,7 @@ const STEPS = [
 export function Header() {
   const path = usePathname();
   const { mode } = useShelf();
+  usePresentMode(); // remembers ?present=1 for the tab, whatever page it was opened on
   return (
     <header className="border-b border-line bg-sand/90 backdrop-blur sticky top-0 z-30">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">

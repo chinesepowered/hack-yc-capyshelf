@@ -22,7 +22,7 @@ export type TagInfo = {
 export const TAGS: Record<Tag, TagInfo> = {
   drying_surfactant: {
     label: "Harsh foaming agent",
-    plain: "A strong cleansing agent that can strip oil and water from skin and sting dry or sensitive skin.",
+    plain: "A strong cleansing agent that can strip oil and water from skin and irritate dry or sensitive skin.",
     effects: [
       { concern: "moisture", kind: "risk", strength: 2 },
       { concern: "redness", kind: "risk", strength: 1 },
@@ -30,7 +30,7 @@ export const TAGS: Record<Tag, TagInfo> = {
   },
   drying_alcohol: {
     label: "Drying alcohol",
-    plain: "Simple alcohol helps products dry fast, but in larger amounts it can leave dry skin tight or stinging.",
+    plain: "Simple alcohol helps products dry fast; in larger amounts it may dry out dry or sensitive skin.",
     effects: [
       { concern: "moisture", kind: "risk", strength: 2 },
       { concern: "redness", kind: "risk", strength: 1 },
@@ -55,8 +55,8 @@ export const TAGS: Record<Tag, TagInfo> = {
     positionMattersLess: true,
   },
   comedogenic: {
-    label: "Often pore-clogging",
-    plain: "Scored as pore-clogging in comedogenicity tests, which can mean more breakouts on acne-prone skin.",
+    label: "May clog pores",
+    plain: "Scored as pore-clogging in older comedogenicity tests, so it may mean more breakouts on acne-prone skin.",
     effects: [{ concern: "acne", kind: "risk", strength: 2 }],
     rinseOffSoftens: true,
   },
@@ -123,22 +123,22 @@ export const TAGS: Record<Tag, TagInfo> = {
   },
   retinoid: {
     label: "Retinoid",
-    plain: "Vitamin A family. Helps texture and breakouts over weeks, often irritating at first.",
+    plain: "Vitamin A family. Can help breakouts and fine lines over weeks, and is often irritating at first.",
     effects: [
-      { concern: "texture", kind: "helps", strength: 2 },
+      { concern: "texture", kind: "helps", strength: 1 },
       { concern: "acne", kind: "helps", strength: 1 },
       { concern: "redness", kind: "risk", strength: 1 },
       { concern: "moisture", kind: "risk", strength: 1 },
     ],
   },
   menthol: {
-    label: "Cooling agent",
-    plain: "Gives a tingly, cool feel that can irritate sensitive skin.",
+    label: "Menthol",
+    plain: "A minty ingredient that can irritate sensitive skin.",
     effects: [{ concern: "redness", kind: "risk", strength: 1 }],
   },
   zinc: {
     label: "Zinc",
-    plain: "Sometimes used for oil control; the evidence is modest.",
+    plain: "May reduce oil, though the evidence is limited.",
     effects: [{ concern: "oiliness", kind: "helps", strength: 1 }],
   },
   fatty_alcohol: {
@@ -193,10 +193,10 @@ export const INGREDIENTS: IngredientEntry[] = [
   { name: "Isopropyl Palmitate", tags: ["comedogenic"] },
   { name: "Isopropyl Isostearate", tags: ["comedogenic"] },
   { name: "Myristyl Myristate", tags: ["comedogenic"] },
-  { name: "Cocos Nucifera Oil", aliases: ["Coconut Oil", "Cocos Nucifera (Coconut) Oil"], tags: ["comedogenic"] },
+  { name: "Cocos Nucifera Oil", aliases: ["Coconut Oil", "Coconut Butter", "Cocos Nucifera (Coconut) Oil"], tags: ["comedogenic"], note: "Rated as coconut butter in the 1989 comedogenicity tests." },
   { name: "Theobroma Cacao Seed Butter", aliases: ["Cocoa Butter", "Theobroma Cacao (Cocoa) Seed Butter"], tags: ["comedogenic"] },
   { name: "Laureth-4", tags: ["comedogenic"] },
-  { name: "Acetylated Lanolin", tags: ["comedogenic"] },
+  { name: "Acetylated Lanolin Alcohol", tags: ["comedogenic"] },
   { name: "Ethylhexyl Palmitate", tags: ["comedogenic"] },
   { name: "Triticum Vulgare Germ Oil", aliases: ["Wheat Germ Oil", "Triticum Vulgare (Wheat) Germ Oil"], tags: ["comedogenic"] },
   // hydration
@@ -216,7 +216,7 @@ export const INGREDIENTS: IngredientEntry[] = [
   { name: "Ceramide EOP", aliases: ["Ceramide 1"], tags: ["barrier_lipid"] },
   { name: "Cholesterol", tags: ["barrier_lipid"] },
   { name: "Phytosphingosine", tags: ["barrier_lipid"] },
-  { name: "Squalane", tags: ["barrier_lipid"] },
+  { name: "Squalane", tags: ["occlusive_emollient"], note: "A light, non-greasy moisturizing oil." },
   { name: "Dimethicone", tags: ["occlusive_emollient"] },
   { name: "Petrolatum", aliases: ["Petroleum Jelly"], tags: ["occlusive_emollient"] },
   { name: "Paraffinum Liquidum", aliases: ["Mineral Oil"], tags: ["occlusive_emollient"] },
@@ -226,8 +226,7 @@ export const INGREDIENTS: IngredientEntry[] = [
   { name: "Salicylic Acid", aliases: ["Beta Hydroxy Acid", "BHA"], tags: ["bha"] },
   { name: "Glycolic Acid", tags: ["aha"] },
   { name: "Lactic Acid", tags: ["aha"] },
-  { name: "Mandelic Acid", tags: ["aha"] },
-  { name: "Niacinamide", aliases: ["Nicotinamide"], tags: ["niacinamide"] },
+    { name: "Niacinamide", aliases: ["Nicotinamide"], tags: ["niacinamide"] },
   { name: "Benzoyl Peroxide", tags: ["benzoyl_peroxide"] },
   { name: "Retinol", tags: ["retinoid"] },
   { name: "Retinal", aliases: ["Retinaldehyde"], tags: ["retinoid"] },
@@ -236,9 +235,9 @@ export const INGREDIENTS: IngredientEntry[] = [
   { name: "Zinc Gluconate", tags: ["zinc"] },
   // soothing
   { name: "Allantoin", tags: ["soothing"] },
-  { name: "Centella Asiatica Extract", aliases: ["Centella Asiatica Leaf Extract", "Cica"], tags: ["soothing"] },
-  { name: "Madecassoside", tags: ["soothing"] },
-  { name: "Bisabolol", tags: ["soothing"] },
+  { name: "Centella Asiatica Extract", aliases: ["Centella Asiatica Leaf Extract", "Cica"], tags: [], note: "Often sold as calming; Capy found no strong source yet, so it is not counted." },
+  { name: "Madecassoside", tags: [], note: "Often sold as calming; not counted without a strong source." },
+  { name: "Bisabolol", tags: [], note: "Often sold as calming; not counted without a strong source." },
   { name: "Avena Sativa Kernel Flour", aliases: ["Colloidal Oatmeal", "Avena Sativa (Oat) Kernel Flour"], tags: ["soothing"] },
   // neutral helpers (known, no effect on these concerns)
   { name: "Aqua", aliases: ["Water", "Aqua (Water)", "Water (Aqua)", "Eau"], tags: [], note: "The base of most products." },
@@ -278,7 +277,7 @@ const PATTERNS: Array<{ re: RegExp; tags: Tag[] }> = [
   { re: /\bceramide\b/, tags: ["barrier_lipid"] },
   { re: /\bhyaluron/, tags: ["humectant"] },
   { re: /\bsalicyl/, tags: ["bha"] },
-  { re: /\b(glycolic|lactic|mandelic) acid\b/, tags: ["aha"] },
+  { re: /\b(glycolic|lactic) acid\b/, tags: ["aha"] },
   { re: /\bretin(ol|al|yl)\b/, tags: ["retinoid"] },
   { re: /\b(fragrance|parfum)\b/, tags: ["fragrance"] },
 ];
