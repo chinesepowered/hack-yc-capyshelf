@@ -1,0 +1,33 @@
+{
+  "api": "Vision LLM label reader",
+  "model": "Qwen/Qwen3.8-27B",
+  "label_image": "/demo/labels/calm-dew-serum.jpg",
+  "captured_at": "2026-11-02T03:00:47.624Z",
+  "elapsed_ms": 6475,
+  "matches_printed_list": false,
+  "reading": {
+    "brand": "Reedwater Lab",
+    "name": "Calm Dew Niacinamide Serum",
+    "type": "treatment",
+    "size": "30 mL / 1 fl oz",
+    "ingredients": [
+      "Aqua (Water)",
+      "Niacinamide",
+      "Propanediol",
+      "Glycerin",
+      "Zinc Pca",
+      "Alcohol Denat",
+      "Panthenol",
+      "Centella Asiatica Extract",
+      "Allantoin",
+      "Sodium Hyaluronate",
+      "Xanthan Gum",
+      "Phenoxyethanol",
+      "Parfum (Fragrance)",
+      "Linalool",
+      "Limonene"
+    ],
+    "readable": true,
+    "note": "All text fully legible. Label footer states 'Fictional product for a demo. Not for sale.'"
+  }
+}

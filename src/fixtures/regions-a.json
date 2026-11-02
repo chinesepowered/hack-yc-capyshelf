@@ -1,0 +1,53 @@
+{
+  "faceBox": {
+    "x0": 178,
+    "x1": 874,
+    "y0": 198,
+    "y1": 1128
+  },
+  "acne": {
+    "detected": true,
+    "coverage": 0.0005,
+    "shares": {
+      "forehead": 0,
+      "nose": 0.091,
+      "cheeks": 0.909,
+      "chin": 0
+    }
+  },
+  "pore": {
+    "detected": true,
+    "coverage": 0.0022,
+    "shares": {
+      "forehead": 0.337,
+      "nose": 0.118,
+      "cheeks": 0.545,
+      "chin": 0
+    }
+  },
+  "oiliness": {
+    "detected": true,
+    "coverage": 0.1808,
+    "shares": {
+      "forehead": 0.33,
+      "nose": 0.062,
+      "cheeks": 0.609,
+      "chin": 0
+    }
+  },
+  "redness": {
+    "detected": false,
+    "coverage": 0,
+    "shares": {}
+  },
+  "texture": {
+    "detected": true,
+    "coverage": 0.0185,
+    "shares": {
+      "forehead": 0,
+      "nose": 0.207,
+      "cheeks": 0.773,
+      "chin": 0.02
+    }
+  }
+}

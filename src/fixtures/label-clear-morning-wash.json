@@ -1,0 +1,30 @@
+{
+  "api": "Vision LLM label reader",
+  "model": "Qwen/Qwen3.8-27B",
+  "label_image": "/demo/labels/clear-morning-wash.jpg",
+  "captured_at": "2026-11-02T03:00:41.148Z",
+  "elapsed_ms": 9380,
+  "matches_printed_list": true,
+  "reading": {
+    "brand": "Tidewhistle",
+    "name": "Clear Morning Foaming Wash",
+    "type": "cleanser",
+    "size": "150 mL / 5 fl oz",
+    "ingredients": [
+      "Aqua (Water)",
+      "Sodium Lauryl Sulfate",
+      "Cocamidopropyl Betaine",
+      "Glycerin",
+      "Salicylic Acid",
+      "Zinc PCA",
+      "Sodium Chloride",
+      "Menthol",
+      "Citric Acid",
+      "Disodium EDTA",
+      "Sodium Benzoate",
+      "Potassium Sorbate"
+    ],
+    "readable": true,
+    "note": "All text legible. Label footer states 'Fictional product for a demo. Not for sale.'"
+  }
+}

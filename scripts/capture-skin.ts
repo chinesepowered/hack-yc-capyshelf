@@ -11,15 +11,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { analyzeSkin, getUnitBalance, SKIN_ACTIONS } from "../src/lib/youcam";
-
-function loadEnv() {
-  const file = path.join(process.cwd(), ".env.local");
-  if (!existsSync(file)) return;
-  for (const line of readFileSync(file, "utf8").split("\n")) {
-    const m = line.match(/^([A-Z0-9_]+)=(.*)$/);
-    if (m && !process.env[m[1]]) process.env[m[1]] = m[2];
-  }
-}
+import { loadEnv } from "./env";
 
 async function main() {
   loadEnv();

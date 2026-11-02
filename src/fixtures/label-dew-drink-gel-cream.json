@@ -1,0 +1,34 @@
+{
+  "api": "Vision LLM label reader",
+  "model": "Qwen/Qwen3.8-27B",
+  "label_image": "/demo/labels/dew-drink-gel-cream.jpg",
+  "captured_at": "2026-11-02T03:00:31.765Z",
+  "elapsed_ms": 8636,
+  "matches_printed_list": true,
+  "reading": {
+    "brand": "Mosslight",
+    "name": "Dew Drink Gel Cream",
+    "type": "moisturizer",
+    "size": "50 mL / 1.7 fl oz",
+    "ingredients": [
+      "Aqua (Water)",
+      "Glycerin",
+      "Isopropyl Myristate",
+      "Dimethicone",
+      "Butylene Glycol",
+      "Niacinamide",
+      "Squalane",
+      "Myristyl Myristate",
+      "Cetearyl Alcohol",
+      "Sodium Hyaluronate",
+      "Ceramide Np",
+      "Panthenol",
+      "Carbomer",
+      "Sodium Hydroxide",
+      "Phenoxyethanol",
+      "Ethylhexylglycerin"
+    ],
+    "readable": true,
+    "note": "All text fully readable. Label footer states 'Fictional product for a demo. Not for sale.'"
+  }
+}
