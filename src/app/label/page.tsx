@@ -93,7 +93,7 @@ export default function LabelPage() {
               Read off the label, colored for <span className="underline decoration-moss decoration-2 underline-offset-4">{profile.label}</span>
             </h3>
             <p className="text-sm text-muted mb-3">
-              Hover or focus a chip for what it does. Order matters: ingredients are listed from most to least, down to
+              Tap a chip to see what it does. Order matters: ingredients are listed from most to least, down to
               about 1 percent.{" "}
               <Link href="/scan" className="underline underline-offset-4">
                 Change skin profile
