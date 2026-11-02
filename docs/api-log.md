@@ -36,7 +36,7 @@ A dated log kept while building. Times are UTC.
 - **03:01** Qwen 3.8 read all three label photos (tilted, slightly blurred) with every ingredient in the right order.
   Only casing differed ("Ceramide Np", "Zinc Pca") and one trailing period was dropped ("Alcohol Denat"), so the
   ingredient matcher ignores case and punctuation.
-- **03:20** Label reader quality fixes: the first explanation for "Shopper B + serum" said the serum suited her
+- **03:20** Explainer quality fix: the first explanation for "Shopper B + serum" said the serum suited her
   pores because of the product name, which was not in the facts. Added two rules: never claim a benefit that is not
   in the facts, and when nothing targets the flagged concerns, say so and list what the table does count. The
   re-recorded text is now accurate.
@@ -44,3 +44,9 @@ A dated log kept while building. Times are UTC.
   Surprise (good): the scores were identical to the recorded scan of the same photo, so YouCam is deterministic for a
   given image, which makes recorded replays trustworthy. The unit balance showed the other build had used 20 units
   in the meantime. Capy Shelf total: **36 units**.
+- **03:30** Demo video recorded with Playwright (headless, 1440x900) against the production build in Replay mode and
+  narrated with AssemblyAI text to speech: 1,720 characters for nine scenes, plus 390 characters to re-voice two lines
+  after the evidence review changed "can clog" to "may clog". Final cut 2:10 with silent title and end cards.
+- **03:40** Accessibility pass with axe-core (WCAG 2.0, 2.1, 2.2 A and AA rules) on every page and every profile and
+  product combination at 1440 px and 390 px: one contrast issue (faded position numbers in ingredient chips), fixed,
+  then 0 violations. Ingredient chips became tappable buttons with a detail panel, since hover does not exist on phones.
