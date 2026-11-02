@@ -11,7 +11,7 @@ const path = require("path");
 const BASE = process.env.BASE || "http://localhost:3200";
 const WORK = "demo/.work";
 const durations = JSON.parse(fs.readFileSync(path.join(WORK, "durations.json"), "utf8"));
-const PAD = 900;
+const PAD = 1400;
 
 function cursorScript() {
   const install = () => {
