@@ -6,7 +6,7 @@
 
 - Demo video (2:24, narrated): [`demo/video.mp4`](demo/video.mp4)
 - Screenshots: [`docs/screenshots/`](docs/screenshots)
-- YouCam AI Skin Analysis Hackathon, topic: **Skin AI**
+- YouCam API Skin AI & eCommerce VTO Hackathon, topic: **Skin AI**
 
 ## The 30-second version
 
