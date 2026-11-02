@@ -1,0 +1,127 @@
+{
+  "api": "YouCam AI Skin Analysis (SD)",
+  "endpoint": "POST /s2s/v2.0/task/skin-analysis",
+  "dst_actions": [
+    "acne",
+    "pore",
+    "oiliness",
+    "moisture",
+    "redness",
+    "texture",
+    "skin_type"
+  ],
+  "source_image": "/demo/faces/face-b.jpg",
+  "task_id": "Qcn-LddzB8OlmhbmtC3vPcGPN_lNeTlCX5pFGb9HjSk1fdJQW6UMvHqXe75Xi8z9SpcgV8WTLEnG8Q2PXjtLzQ",
+  "captured_at": "2026-11-02T02:53:34.286Z",
+  "elapsed_ms": 6026,
+  "units_used": 12,
+  "result": {
+    "error": null,
+    "results": {
+      "output": [
+        {
+          "ui_score": 75,
+          "mask_urls": [
+            "/fixtures/skin-b/acne.png"
+          ],
+          "raw_score": 66.11876000000001,
+          "type": "acne",
+          "url": null
+        },
+        {
+          "ui_score": 95,
+          "mask_urls": [
+            "/fixtures/skin-b/texture.png"
+          ],
+          "raw_score": 97.05815315246582,
+          "type": "texture",
+          "url": null
+        },
+        {
+          "ui_score": 98,
+          "mask_urls": [
+            "/fixtures/skin-b/oiliness.png"
+          ],
+          "raw_score": 99.5406723022461,
+          "type": "oiliness",
+          "url": null
+        },
+        {
+          "ui_score": 83,
+          "mask_urls": [
+            "/fixtures/skin-b/redness.png"
+          ],
+          "raw_score": 85.42362213134766,
+          "type": "redness",
+          "url": null
+        },
+        {
+          "ui_score": 66,
+          "mask_urls": [
+            "/fixtures/skin-b/pore.png"
+          ],
+          "raw_score": 46.46095538139343,
+          "type": "pore",
+          "url": null
+        },
+        {
+          "ui_score": 78,
+          "mask_urls": [
+            "/fixtures/skin-b/moisture.png"
+          ],
+          "raw_score": 72.3839521408081,
+          "type": "moisture",
+          "url": null
+        },
+        {
+          "mask_urls": [
+            "/fixtures/skin-b/skin_type.png"
+          ],
+          "type": "skin_type",
+          "region": "whole",
+          "skin_type": "Normal",
+          "url": null
+        },
+        {
+          "mask_urls": [
+            "/fixtures/skin-b/skin_type.png"
+          ],
+          "type": "skin_type",
+          "region": "t_zone",
+          "skin_type": "Normal",
+          "url": null
+        },
+        {
+          "mask_urls": [
+            "/fixtures/skin-b/skin_type.png"
+          ],
+          "type": "skin_type",
+          "region": "u_zone",
+          "skin_type": "Normal",
+          "url": null
+        },
+        {
+          "score": 82.5,
+          "type": "all",
+          "url": null,
+          "mask_urls": []
+        },
+        {
+          "score": 28,
+          "type": "skin_age",
+          "url": null,
+          "mask_urls": []
+        },
+        {
+          "mask_urls": [
+            "/demo/faces/face-b.jpg"
+          ],
+          "type": "resize_image",
+          "url": null,
+          "note": "YouCam returned the resized source image; it matches the input, so the repo keeps only the input."
+        }
+      ]
+    },
+    "task_status": "success"
+  }
+}
