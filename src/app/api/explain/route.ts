@@ -5,6 +5,7 @@
 import { explainVerdict, llmConfigured } from "@/lib/llm";
 import { computeVerdict, VERDICT_LABEL, verdictFacts } from "@/lib/verdict";
 import type { Product, SkinProfile } from "@/lib/types";
+import { takeLlmCall } from "@/lib/live-limit";
 
 export const runtime = "nodejs";
 export const maxDuration = 90;
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
   const key = JSON.stringify([product.name, verdict.kind, facts]);
   const hit = cache.get(key);
   if (hit) return Response.json({ ...hit, cached: true });
+  if (!takeLlmCall("explain")) return Response.json({ error: "The explainer is resting for now." }, { status: 429 });
   try {
     const out = await explainVerdict({
       productName: product.name,

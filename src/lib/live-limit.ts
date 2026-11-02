@@ -27,3 +27,15 @@ export function reserveLiveScan(): boolean {
 export function releaseLiveScan(): void {
   g.__capyLiveScans = Math.max(0, liveScansUsed() - 1);
 }
+
+/** Simple per-process caps for the LLM routes, so a public demo cannot drain the shared key. */
+const counters = globalThis as unknown as { __capyLlmCalls?: Record<string, number> };
+
+export function takeLlmCall(route: "label" | "explain"): boolean {
+  const caps = { label: Number(process.env.LIVE_LABEL_LIMIT ?? 100), explain: Number(process.env.LIVE_EXPLAIN_LIMIT ?? 300) };
+  counters.__capyLlmCalls ??= {};
+  const used = counters.__capyLlmCalls[route] ?? 0;
+  if (used >= caps[route]) return false;
+  counters.__capyLlmCalls[route] = used + 1;
+  return true;
+}

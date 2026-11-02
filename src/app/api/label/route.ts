@@ -1,6 +1,7 @@
 /** Live label reading: photo of an ingredient list -> vision LLM -> Product. */
 import { llmConfigured, readLabel } from "@/lib/llm";
 import type { Product } from "@/lib/types";
+import { takeLlmCall } from "@/lib/live-limit";
 
 export const runtime = "nodejs";
 export const maxDuration = 90;
@@ -21,6 +22,9 @@ export async function POST(req: Request) {
     return Response.json({ error: "Use a JPEG, PNG or WebP photo." }, { status: 400 });
   }
   if (file.size > 8 * 1024 * 1024) return Response.json({ error: "That photo is over 8 MB." }, { status: 400 });
+  if (!takeLlmCall("label")) {
+    return Response.json({ error: "This server has read its share of labels for now. Try the replay." }, { status: 429 });
+  }
 
   try {
     const { reading, elapsedMs, model } = await readLabel(new Uint8Array(await file.arrayBuffer()), file.type);
