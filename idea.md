@@ -66,7 +66,8 @@ a dermatologist (persistent or painful acne). Put the limits in the UI and READM
 - `YOUCAM_API_KEY`: server-side only (Next.js API routes). YouCam units are free (no card), but **1,000 units are shared
   by two builds**: stay under ~350 units. Skin analysis costs 9 to 22 units per call; try-on about 2.
 - LLM (free W&B inference, OpenAI-compatible): `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`
-  (`Qwen/Qwen3.8-27B`), `OPENAI_VISION_MODEL` (`google/gemma-4-31B-it`, for reading images). Server-side only. Use
+  (`Qwen/Qwen3.8-27B` for everything, including images: verified to read an image sent as an OpenAI `image_url` part,
+  about 5 s per image; trim leading whitespace from replies). Server-side only. Use
   `maxRetries: 4` and a 60 s timeout (the endpoint fails about 1 call in 20 without retries).
 - `.env*` git-ignored; scan history before the last push:
   `git grep -nE "sk-[A-Za-z0-9_-]{30,}|wandb_v1_|sk_[a-f0-9]{40}" $(git rev-list --all)` must print nothing.
